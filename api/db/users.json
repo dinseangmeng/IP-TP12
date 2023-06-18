@@ -1,0 +1,20 @@
+[{
+  "_id":"6486c28a55adb2d201b54346",
+  "username": "dinseangmeng",
+  "email": "dinseangmeng@gmail.com",
+  "password": "$2b$10$AkER7.fmv0ZaOwn1xZxgPe86He8ZnOZKkkqzf.7/vAyxEF9u6.HGG",
+  "firstname": "din",
+  "lastname": "seangmeng",
+  
+  "__v": 0
+},
+{
+  
+  "username": "lingling",
+  "email": "lingling@gmail.com",
+  "password": "$2b$10$VDgpfqSNFArT3H//33gfYO51UiCVPLp2NG24hcxhvzeI7pqMiqWxO",
+  "firstname": "ling",
+  "lastname": "ling",
+  
+  "__v": 0
+}]
