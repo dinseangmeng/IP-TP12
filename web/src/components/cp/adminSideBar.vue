@@ -6,7 +6,7 @@
             <button :ref="allEle[2]" @click="toggle($event,AdminListingENUM.PRODUCT)">Product</button>
         </section>
         <section>
-            <button  @click="toggle($event)">Profile</button>
+            <button :ref="allEle[3]"  @click="toggle($event,10)">Profile</button>
             <button  @click="logout">Logout</button>
         </section>
     </main>

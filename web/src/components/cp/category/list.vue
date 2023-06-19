@@ -3,6 +3,7 @@
         <div id="loader" v-if="store.state.isLoading_cp">
             <span class="loader" ></span>
         </div>
+        <createCategory v-if="!store.state.isLoading_cp" />
         <table v-if="store.state.categoryData && !store.state.isLoading_cp">
             <tr>
                 <th>No</th>
@@ -38,6 +39,7 @@
 <script setup>
 import dateFormation from '../../../util/dateFormation'
 import store from "@/store/index.js"
+import createCategory from './create.vue';
 import {ref} from 'vue'
 const visible =ref(false)
 const detailObject=ref({
@@ -121,7 +123,7 @@ const popUp=(obj)=>{
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+    gap: 1rem;
     overflow: auto;
     scrollbar-gutter: stable;
     @media print {

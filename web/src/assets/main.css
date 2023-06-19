@@ -43,6 +43,26 @@
   overflow-x: hidden;
   
 }
+
+.linkToDashboard{
+  width: fit-content;
+  padding: .4rem 1rem;
+  border-radius: .2rem;
+  background-color: aqua;
+  position: absolute;
+  top: 2%;
+  left: 2%;
+  z-index: 9999;
+  color: black;
+  border: 2px solid black;
+  transform: translateY(-200%);
+  transition: 300ms;
+  
+}
+.linkToDashboard:focus{
+  transform: translateY(0);
+}
+
 @media print {
   #app::-webkit-scrollbar{
     display: none;

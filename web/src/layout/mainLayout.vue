@@ -1,4 +1,5 @@
 <template>
+ <router-link class="linkToDashboard" :to="{name:'login'}" tabindex="0">Go to dashboard</router-link>
     <logoHeader />
     <main>
         <section class="left">
@@ -13,11 +14,13 @@
 </template>
 
 <script setup>
+import { RouterLink } from 'vue-router'
 import logoHeader from '../components/logoHeader.vue';
 import sideBar from "../components/sideBar.vue"
 </script>
 
 <style lang="scss" scoped>
+
 main{
     width: 100%;
     display: flex;
