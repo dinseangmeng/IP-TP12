@@ -10,14 +10,18 @@
                 <th>Name</th>
                 <th>Category</th>
                 <th>Owner</th>
-                <th style="text-align: right;">Created</th>
+                <th >Created</th>
+                <th style="text-align: right;">Action</th>
             </tr>
-            <tr style="cursor: pointer;" v-for="(item, index) in store.state.SubCategoryData" :key="item._id" @click="popUp(item)">
-                <td>{{index+1}}</td>
-                <td>{{ item.name }}</td>
-                <td>{{ item.category.name }}</td>
-                <td style="text-transform: uppercase;">{{ item.user.username }}</td>
-                <td style="text-align: right;"><date-format :date="new Date(item.created )"  /></td>
+            <tr style="cursor: pointer;" v-for="(item, index) in store.state.SubCategoryData" :key="item._id" >
+                <td @click="popUp(item)">{{index+1}}</td>
+                <td @click="popUp(item)">{{ item.name }}</td>
+                <td @click="popUp(item)">{{ item?.category?.name }}</td>
+                <td @click="popUp(item)" style="text-transform: uppercase;">{{ item.user.username }}</td>
+                <td @click="popUp(item)" ><date-format :date="new Date(item.created )"  /></td>
+                <td style="text-align: right;">
+                    <deleteSubCategory :data="item"/>
+                </td>
             </tr>
             
         </table>
@@ -30,8 +34,8 @@
         <a-divider orientation="left" style="font-weight: bold;">Category</a-divider>
 
 
-        <p>Name: {{ detailObject.category.name }}</p>
-        <p>Create:<date-format :date="new Date(detailObject.category.created )" has-time/></p>
+        <p>Name: {{ detailObject?.category?.name }}</p>
+        <p>Create:<date-format :date="new Date(detailObject?.category?.created )" has-time/></p>
 
 
 
@@ -53,6 +57,7 @@ import dateFormation from '../../../util/dateFormation'
 import store from "@/store/index.js"
 import {ref} from 'vue'
 import createSubCategory from './create.vue';
+import deleteSubCategory from './delete.vue';
 const visible =ref(false)
 const detailObject=ref({
     title:"Basic model"

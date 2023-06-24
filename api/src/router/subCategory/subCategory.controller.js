@@ -19,7 +19,7 @@ router.post("/:categoryId",TokenValidation,check_category,async(req,res)=>{
 
 })
 
-router.delete("/:subCategoryId",TokenValidation,check_category,async(req,res)=>{
+router.delete("/:subCategoryId",TokenValidation,async(req,res)=>{
     // console.log(req.params.subCategoryId);
     return await SUB_CATEGORY_SERVICE.delete(req.params.subCategoryId,req,res)
 

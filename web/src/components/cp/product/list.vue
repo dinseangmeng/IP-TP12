@@ -14,8 +14,8 @@
             <tr style="cursor: pointer;" v-for="(item, index) in store.state.ProductData" :key="item._id"  @click="popUp(item)">
                 <td>{{index+1}}</td>
                 <td>{{ item.name }}</td>
-                <td>{{ item.subcategory.name }}</td>
-                <td style="text-transform: uppercase;">{{ item.user.username }}</td>
+                <td>{{ item.subcategory?.name }}</td>
+                <td style="text-transform: uppercase;">{{ item.user?.username }}</td>
                 <td style="text-align: right;"><date-format :date="new Date(item.created )"  /></td>
             </tr>
             

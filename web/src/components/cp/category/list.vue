@@ -9,13 +9,19 @@
                 <th>No</th>
                 <th>Name</th>
                 <th>Owner</th>
-                <th style="text-align: right;">Created</th>
+                <th >Created</th>
+                <th style="text-align: right;">Action</th>
             </tr>
-            <tr style="cursor: pointer;" v-for="(item, index) in store.state.categoryData" :key="item._id" @click="popUp(item)">
-                <td>{{index+1}}</td>
-                <td>{{ item.name }}</td>
-                <td style="text-transform: uppercase;">{{ item.user.username }}</td>
-                <td style="text-align: right;"><date-format :date="new Date(item.created )"/></td>
+            <tr style="cursor: pointer;" v-for="(item, index) in store.state.categoryData" :key="item._id" >
+                <td @click="popUp(item)">{{index+1}}</td>
+                <td @click="popUp(item)">{{ item.name }}</td>
+                <td style="text-transform: uppercase;" @click="popUp(item)">{{ item.user.username }}</td>
+                <td @click="popUp(item)"><date-format :date="new Date(item.created )"/></td>
+                <td class="action" style="text-align: right;">
+                    <editCategory :data="item" />
+                    <deleteCategory :data="item" />
+                    
+                </td>
             </tr>
             
         </table>
@@ -30,17 +36,27 @@
         <p>Firstname: {{ detailObject.user.firstname }}</p>
         <p>Username: {{ detailObject.user.lastname }}</p>
         <p>Joined:<date-format :date="new Date(detailObject.user.created )" has-time/></p>
-      <template #footer>
-        <a-button key="submit" type="primary" :loading="loading" @click="visible=false">OK</a-button>
-      </template>
+        <template #footer>
+            <a-button key="submit" type="primary" :loading="loading" @click="visible=false">OK</a-button>
+        </template>
     </a-modal>
+    
+    
+    
+
 </template>
 
 <script setup>
 import dateFormation from '../../../util/dateFormation'
 import store from "@/store/index.js"
+import AdminListingENUM from '../../../util/AdminListingENUM';
+import deleteCategory from './delete.vue';
+import editCategory from './edit.vue';
 import createCategory from './create.vue';
 import {ref} from 'vue'
+const isLoadingDelete=ref(false)
+const isDelete=ref(false)
+const categoryGonnaDelete=ref("")
 const visible =ref(false)
 const detailObject=ref({
     title:"Basic model"
@@ -51,6 +67,7 @@ const popUp=(obj)=>{
     // console.dir(detailObject.value.subCategory);
     visible.value=true
 }
+
 
 </script>
 
@@ -138,6 +155,7 @@ const popUp=(obj)=>{
         th,td{
             border: 2px solid black;
             height: fit-content;
+            
         }
         th{
             background-color: rgb(0, 255, 208);
