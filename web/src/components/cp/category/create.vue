@@ -6,7 +6,7 @@
             </svg>
         </button>
     </main>
-    <a-modal v-model:visible="visible" :title="`New Category`" @ok="handleOk">
+    <a-modal v-model:visible="visible" :title="`New Category`" >
         <div class="input" v-if="!isLoading">
             <label for="name">Category name : </label>
             <div class="name_input">

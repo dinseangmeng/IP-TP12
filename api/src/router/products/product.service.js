@@ -3,7 +3,7 @@ const {deleteFile}=require("../../util/File")
 module.exports=class productService{
     async list(req,res){
         return res.json({
-            product:await Product.find()
+            product:await Product.find({},'-prices._id')
             .populate({
                 path:"user",
                 select:"-password"
@@ -73,6 +73,7 @@ module.exports=class productService{
         
         
     async update(data,productId,imagePath,req,res){
+  
         try{
             const oldProduct=await Product.findById(productId)
             if(!oldProduct) return res.status(404).json("Item not found")
@@ -83,10 +84,15 @@ module.exports=class productService{
                 deleteFile(oldProduct.image)
             }
             let updated=await Product.findByIdAndUpdate(productId,data)
+
+            if(data.prices){
+                updated.prices=data.prices
+            }
+
             updated.image=imagePath
             return res.json(await updated.save())
         }catch(err){
-            // console.log(err);
+            console.log(err);
             return res.status(404).json("Item not found")
         }
     }

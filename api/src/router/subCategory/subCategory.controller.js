@@ -30,4 +30,8 @@ router.put("/:subCategoryId",TokenValidation,check_subCategory_update,async(req,
 
 })
 
+router.get("/:CategoryId",async(req,res)=>{
+    return await SUB_CATEGORY_SERVICE.listByCategoryId(req.params.CategoryId,req,res)
+})
+
 module.exports = router

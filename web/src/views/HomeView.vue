@@ -13,7 +13,7 @@
 
     <main v-if="!store.state.loding && !store.state.isEmpty">
       <div  class="item" v-for="item in store.state.data" :key="item._id">
-        <img :src="`${store.state.fileUrl}/${item.image}`" :alt="item.name" loading="lazy">
+        <img :src="item.image ?`${store.state.fileUrl}/${item.image}`: `../../public/default_image.png`" :alt="item.name" loading="lazy">
         <div class="infor">
           <p>{{ item.name }}</p>
           <div class="prices">

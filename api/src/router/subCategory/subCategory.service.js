@@ -8,12 +8,12 @@ module.exports=class subCategoryService{
         }).populate({
             path: 'category'
         }).exec()
-
+        
         res.json({
             subCategory:subCategory
         })
     }
-
+    
     async create(data,categoryId,req,res){
         console.log(req.user);
         const subCategory=new SubCategory({
@@ -29,48 +29,62 @@ module.exports=class subCategoryService{
             path: 'category'
         }).exec())
     }
-
+    
     async delete(subCategoryId,req,res){
         try{
             const subCategory=await SubCategory.findByIdAndDelete(subCategoryId)
             if(!subCategory)            return res.status(404).json("Item not found")
             return res.json(subCategory)
-
+            
         }catch(err){
             console.log(err);
             return res.status(404).json("Item not found")
         }
     }
-
-
+    
+    
     async update(subCategoryId,data,req,res){
-
+        
         try{
             let categoryId=data.categoryId
             if(categoryId){
                 const subCategory =await SubCategory.findByIdAndUpdate(subCategoryId,{
                     name:data.name,
                     category:categoryId,
-
+                    
                 })
                 if(!subCategory) return res.status(404).json("Item not found")
                 return res.json(
                     subCategory
-                )
+                    )
+                }
+                const subCategory =await SubCategory.findByIdAndUpdate(subCategoryId,{
+                    name:data.name,
+                    user:req.user._id
+                })
+                if(!subCategory) return res.status(404).json("Item not found")
+                return res.json(
+                    subCategory
+                    )
+                    
+                    
+                }catch(err){
+                    console.log(err);
+                    return res.status(404).json("Item not found")
+                }
             }
-            const subCategory =await SubCategory.findByIdAndUpdate(subCategoryId,{
-                name:data.name,
-                user:req.user._id
-            })
-            if(!subCategory) return res.status(404).json("Item not found")
-            return res.json(
-                subCategory
-            )
-
-
-        }catch(err){
-            console.log(err);
-            return res.status(404).json("Item not found")
+            
+            
+            async listByCategoryId(CategoryId,req,res){
+                try{
+                    console.log(CategoryId);
+                    const subCategory=await SubCategory.find({category:CategoryId})
+                    if(!subCategory)return res.status(404).json("Item not found")
+                    return res.json(subCategory)
+                }catch(err){
+                    console.log(err);
+                    return res.status(404).json("Item not found")
+                }
+            }
+            
         }
-    }
-}

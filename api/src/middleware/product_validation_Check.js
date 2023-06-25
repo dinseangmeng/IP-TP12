@@ -1,7 +1,7 @@
 const {productValidtion,priceValidtion} = require("./validation/product_validation")
 function check_product(req,res,next){
     const { name, categoryId, subCategoryId, description, price } = req.body;
-
+    // console.log(req.body);
     const {error}=productValidtion({
         name,
         categoryId,

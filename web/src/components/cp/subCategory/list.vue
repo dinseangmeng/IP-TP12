@@ -20,7 +20,8 @@
                 <td @click="popUp(item)" style="text-transform: uppercase;">{{ item.user.username }}</td>
                 <td @click="popUp(item)" ><date-format :date="new Date(item.created )"  /></td>
                 <td style="text-align: right;">
-                    <deleteSubCategory :data="item"/>
+                    <editSubCategory :data="item" :options="store.state.categoryData" />
+                    <deleteSubCategory :data="item" />
                 </td>
             </tr>
             
@@ -58,6 +59,8 @@ import store from "@/store/index.js"
 import {ref} from 'vue'
 import createSubCategory from './create.vue';
 import deleteSubCategory from './delete.vue';
+import editSubCategory from './edit.vue';
+
 const visible =ref(false)
 const detailObject=ref({
     title:"Basic model"

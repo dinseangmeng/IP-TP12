@@ -34,12 +34,17 @@ router.post("/",TokenValidation,upload.single('file'),check_product, async(req,r
 
 router.put("/:id",TokenValidation,upload.single('file'),async(req,res)=>{
   let imagePath=null;
+  if(req.body.prices){
+    req.body.prices=JSON.parse(req.body.prices)
+  }
+
   if(req.file){
     const fileBuffer = req.file.buffer;
     const fileExtension = path.extname(req.file.originalname);
     // console.log(fileExtension);
     imagePath=saveFile(fileBuffer,fileExtension,"static/product")
   }
+  
   return await PRODUCT_SERVICE.update(req.body,req.params.id,imagePath,req,res)
 })
 

@@ -1,17 +1,15 @@
 <template>
-    <main>
-        <button @click="visible=true">New 
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-        </button>
-    </main>
+    <svg xmlns="http://www.w3.org/2000/svg"  @click="popUpEdit()" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 edit">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+    </svg>
+    
+
     <a-modal v-model:visible="visible" :title="`New Category`" >
         <div class="input" v-if="!isLoading">
             <label for="name">Sub Category name : </label>
             <div class="name_input">
                 
-                <input type="text" :class="isErrorSubCatName ?'err':''" placeholder="Name" v-model="newSubCategoryName" required>
+                <input type="text" :class="isErrorSubCatName ?'err':''" placeholder="Name" v-model="SubCategoryName" required>
                 <p class="errMsg" v-if="isErrorSubCatName">{{ errMsg }}</p>
             </div>
         </div>
@@ -25,7 +23,7 @@
             optionFilterProp="children"
             :filter-option="customFilterOption"
             >
-            <a-select-option v-for="item in options" :key="item?._id" :dataSearch="item.name"  :value="item?._id" >{{item.name  }}</a-select-option>
+            <a-select-option v-for="item in options" :key="item?._id" :dataSearch="item.name"  :value="item?._id" >{{item.name}}</a-select-option>
             
         </a-select>
     </div>
@@ -34,7 +32,7 @@
     </div>
     <template #footer>
         <a-button key="cancle" type="primary" :disabled="isLoading"  @click="handleCancle">Cancel</a-button>
-        <a-button key="submit" type="primary" :disabled="isLoading" :loading="isLoading" @click="Save">Save</a-button>
+        <a-button key="submit" type="primary" :disabled="isLoading" :loading="isLoading" @click="Save" >Save</a-button>
     </template>
 </a-modal>
 </template>
@@ -44,12 +42,17 @@
 import {ref} from 'vue'
 import store from '../../../store';
 import AdminListingENUM from '../../../util/AdminListingENUM';
+const prop=defineProps({
+    data: Object,
+    options:Object
+})
+
 
 const visible =ref(false)
-const newSubCategoryName=ref("")
+const SubCategoryName=ref("")
 const CategoryId=ref("")
 
-const options = ref()
+// const options = ref()
 
 const isErrorSubCatName=ref(false)
 const isErrorCatId=ref(false)
@@ -65,12 +68,20 @@ const handleCancle=()=>{
     isErrorSubCatName.value=false
     isErrorCatId.value=false
     visible.value=false
-    newSubCategoryName.value=""
+    SubCategoryName.value=""
     CategoryId.value=""
 }
+
+const popUpEdit=()=>{
+    CategoryId.value=prop?.data?.category?._id
+    SubCategoryName.value=prop?.data?.name
+    visible.value=true
+}   
+
+// console.log(prop.options);
 const Save=()=>{
     const regex = /^\s*$/;
-    if (regex.test(newSubCategoryName.value)  ) {
+    if (regex.test(SubCategoryName.value)  ) {
         isErrorSubCatName.value=true
         
     }else{
@@ -90,18 +101,22 @@ const Save=()=>{
     isErrorCatId.value=false
     isLoading.value=true
     const token=localStorage.getItem("token")
-    fetch(`${store.state.apiUrl}/sub-category/${CategoryId.value}`,{
-        method:'POST',
+    fetch(`${store.state.apiUrl}/sub-category/${prop?.data?._id}`,{
+        method:'PUT',
         headers:{
             'Accept': 'application/json',
             'Content-Type': 'application/json; charset=utf-8',
             "Authorization":`Bearer ${token}`
         },
-        body:JSON.stringify({name:newSubCategoryName.value})
+        body:JSON.stringify({
+            name:SubCategoryName.value,
+            categoryId:CategoryId.value
+        })
     }).then(res=>{
         if(res.status<200 || res.status>=300){
             res.json().then(data=>{errMsg.value=data.message})
-            isError.value=true
+            isErrorSubCatName.value=false
+            isErrorCatId.value=false
         }else{
             res.json().then(data=>{
                 getSubCategory(AdminListingENUM.SUB_CATEGORY)
@@ -122,22 +137,13 @@ const Save=()=>{
             isErrorSubCatName.value=false
             isErrorCatId.value=false
             visible.value=false
-            newSubCategoryName.value=""
+            SubCategoryName.value=""
             CategoryId.value=""
         })
     }
     
 }
-const getCategory= (index)=>{
-    // store.state.isLoading_cp=true
-    fetch(`${store.state.apiUrl}/category`)
-    .then(res=>res.json())
-    .then(data=>{
-        options.value=data.category
-    })
-    
-}
-getCategory()
+
 </script>
 
 <style lang="scss" scoped>
@@ -256,6 +262,14 @@ main{
             --size:1.5rem;
             width: var(--size);
         }
+    }
+}
+svg{
+    --size:1.5rem;
+    width: var(--size);
+    cursor: pointer;
+    &.edit{
+        color: rgb(0, 119, 255);
     }
 }
 </style>
