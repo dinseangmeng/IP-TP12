@@ -8,8 +8,6 @@ app.use("/static",express.static(path.join(__dirname, 'static')));
 
 var cors = require('cors')
 
-
-
 app.use(cors("*"))
 app.use(express.json())
 
@@ -28,8 +26,6 @@ app.use("/api",require("./src/main"))
 require("./src/config/db")()
 
 // console.log(require("./src/config/session")());
-
-
 
 
 app.listen(process.env.PORT,()=>{

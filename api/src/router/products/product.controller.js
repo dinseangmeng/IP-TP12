@@ -70,7 +70,7 @@ router.post("/price/add/:id",TokenValidation,check_price,async (req,res)=>{
 router.delete("/price/delete/:productId/:priceId",TokenValidation,async (req,res)=>{
   return await PRODUCT_SERVICE.deletePrice(req.params.productId,req.params.priceId,req,res)
 })
-router.put("/price/delete/:productId/:priceId",TokenValidation,check_price,async (req,res)=>{
+router.put("/price/update/:productId/:priceId",TokenValidation,check_price,async (req,res)=>{
   return await PRODUCT_SERVICE.updatePrice(req.params.productId,req.params.priceId,req.body,req,res)
 })
 
